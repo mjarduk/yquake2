@@ -810,7 +810,7 @@ build/baseq2/%.o: %.c
 	${Q}mkdir -p $(@D)
 	${Q}$(CC) -c $(CFLAGS) $(INCLUDE) -o $@ $<
 
-release/baseq2/game.dll : LDFLAGS += -shared
+release/baseq2/game.dll : LDFLAGS += -shared -llua
 
 else ifeq ($(YQ2_OSTYPE), Darwin)
 
@@ -824,8 +824,8 @@ build/baseq2/%.o: %.c
 	${Q}mkdir -p $(@D)
 	${Q}$(CC) -c $(CFLAGS) $(INCLUDE) -o $@ $<
 
-release/baseq2/game.dylib : CFLAGS += -fPIC
-release/baseq2/game.dylib : LDFLAGS += -shared
+release/baseq2/game.dylib : CFLAGS += -fPIC -llua
+release/baseq2/game.dylib : LDFLAGS += -shared -llua
 
 else # not Windows or Darwin
 
@@ -839,8 +839,8 @@ build/baseq2/%.o: %.c
 	${Q}mkdir -p $(@D)
 	${Q}$(CC) -c $(CFLAGS) $(INCLUDE) -o $@ $<
 
-release/baseq2/game.so : CFLAGS += -fPIC -Wno-unused-result
-release/baseq2/game.so : LDFLAGS += -shared
+release/baseq2/game.so : CFLAGS += -fPIC -Wno-unused-result -llua
+release/baseq2/game.so : LDFLAGS += -shared -llua
 endif
 
 # ----------
@@ -867,6 +867,7 @@ GAME_OBJS_ = \
 	src/game/g_turret.o \
 	src/game/g_utils.o \
 	src/game/g_weapon.o \
+	src/game/g_lua.o \
 	src/game/monster/berserker/berserker.o \
 	src/game/monster/boss2/boss2.o \
 	src/game/monster/boss3/boss3.o \

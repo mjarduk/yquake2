@@ -29,6 +29,11 @@
 
 #include "../../common/header/shared.h"
 
+/* lua shtuff */
+#include <lua.h>
+#include <lualib.h>
+#include <lauxlib.h>
+
 /* define GAME_INCLUDE so that game.h does not define the
    short, server-visible gclient_t and edict_t structures,
    because we define the full size ones in this file */
@@ -555,6 +560,8 @@ extern cvar_t *g_machinegun_norecoil;
 extern cvar_t *g_quick_weap;
 extern cvar_t *g_swap_speed;
 
+extern lua_State *L;
+
 #define world (&g_edicts[0])
 
 /* item spawnflags */
@@ -815,6 +822,33 @@ void UpdateChaseCam(edict_t *ent);
 void ChaseNext(edict_t *ent);
 void ChasePrev(edict_t *ent);
 void GetChaseTarget(edict_t *ent);
+
+/* g_lua.c */
+
+typedef enum {
+  CALL_COMMAND,
+  CALL_JOIN
+} callback_t;
+
+typedef struct {
+  callback_t type;
+  int data_len;
+  void* data;
+} callback_info_t;
+
+typedef struct {
+  int argc;
+  char** argv;
+  edict_t* caller;
+} command_callback_t;
+
+extern int command_callback;
+extern int join_callback;
+
+void InitLua(void);
+void InitLuaGlobals(void);
+void StopLua(void);
+void CallLuaCallback(int callback_reference, callback_info_t info);
 
 /* savegame */
 void InitGame(void);

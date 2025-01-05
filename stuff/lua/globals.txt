@@ -1,0 +1,8 @@
+callback(string, function)
+
+Registers a callback that's called upon a certain action
+Callbacks can contain arguments
+
+Existing callbacks:
+command - args: client (type client)
+join - args: client (type client)

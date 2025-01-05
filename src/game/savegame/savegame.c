@@ -251,9 +251,11 @@ InitGame(void)
 
 	/* items */
 	InitItems();
-
 	game.helpmessage1[0] = 0;
 	game.helpmessage2[0] = 0;
+
+	/* lua */
+	InitLua();
 
 	/* initialize all entities for this game */
 	game.maxentities = maxentities->value;

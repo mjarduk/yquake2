@@ -1160,8 +1160,7 @@ Cmd_Say_f(edict_t *ent, qboolean team, qboolean arg0)
 		return;
 	}
 
-	if ((gi.argc() < 2) && !arg0)
-	{
+	if ((gi.argc() < 2) && !arg0) {
 		return;
 	}
 
@@ -1840,6 +1839,19 @@ Cmd_PrefWeap_f(edict_t *ent)
 	}
 }
 
+static void Cmd_Lua_f(edict_t* ent) {
+	if (!dedicated->value) {
+		gi.cprintf(ent, PRINT_HIGH, "This is a server command");
+		return;
+	}
+
+	// command_callback_t callback = {.argc = gi.argc() - 1, .caller = ent};
+
+	callback_info_t info = {CALL_COMMAND, 1, (void*)ent};
+
+	CallLuaCallback(command_callback, info);
+}
+
 void
 ClientCommand(edict_t *ent)
 {
@@ -1884,6 +1896,11 @@ ClientCommand(edict_t *ent)
 	if (Q_stricmp(cmd, "help") == 0)
 	{
 		Cmd_Help_f(ent);
+		return;
+	}
+
+	if (Q_stricmp(cmd, "lua") == 0) {
+		Cmd_Lua_f(ent);
 		return;
 	}
 

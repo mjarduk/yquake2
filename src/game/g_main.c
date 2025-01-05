@@ -100,6 +100,8 @@ ShutdownGame(void)
 {
 	gi.dprintf("==== ShutdownGame ====\n");
 
+	StopLua();
+
 	gi.FreeTags(TAG_LEVEL);
 	gi.FreeTags(TAG_GAME);
 }
